@@ -15,6 +15,17 @@ A linguagem Arjanov suporta:
   - Funções: func, return
   - E/S: input, puts
   - Literais: inteiros, decimais, strings (entre aspas simples), booleanos (true, false)
+
+  Os operadores são agrupados por nível de precedência (do menor para o maior):
+      Nível 1 - OP_OR:              OR
+      Nível 2 - OP_XOR:             XOR, XNOR
+      Nível 3 - OP_AND:             AND
+      Nível 4 - OP_RELACIONAL:      ==  !=  <  >  <=  >=
+      Nível 5 - OP_ADITIVO:         +  -
+      Nível 6 - OP_MULTIPLICATIVO:  *  /  %
+      Nível 7 - OP_POTENCIA:        ^
+
+  O operador específico dentro de cada grupo é identificado pelo lexema.
 """
 
 from enum import Enum, auto
@@ -57,27 +68,14 @@ class TokenType(Enum):
     INPUT = auto()
     PUTS = auto()
 
-    # Operadores aritméticos
-    MAIS = auto()
-    MENOS = auto()
-    MULTIPLICACAO = auto()
-    DIVISAO = auto()
-    MODULO = auto()
-    POTENCIA = auto()
-
-    # Operadores lógicos
-    AND = auto()
-    OR = auto()
-    XOR = auto()
-    XNOR = auto()
-
-    # Operadores relacionais
-    IGUAL = auto()
-    DIFERENTE = auto()
-    MENOR = auto()
-    MAIOR = auto()
-    MENOR_IGUAL = auto()
-    MAIOR_IGUAL = auto()
+    # Operadores
+    OP_OR = auto()  # OR                   (precedência 1 - menor)
+    OP_XOR = auto()  # XOR, XNOR            (precedência 2)
+    OP_AND = auto()  # AND                  (precedência 3)
+    OP_RELACIONAL = auto()  # ==  !=  <  >  <=  >= (precedência 4)
+    OP_ADITIVO = auto()  # +  -                 (precedência 5)
+    OP_MULTIPLICATIVO = auto()  # *  /  %              (precedência 6)
+    OP_POTENCIA = auto()  # ^                    (precedência 7 - maior)
 
     # Atribuição
     ATRIBUICAO = auto()
@@ -120,10 +118,10 @@ KEYWORDS = {
     "input": TokenType.INPUT,
     "puts": TokenType.PUTS,
     # Operadores lógicos (escritos em maiúsculas no código-fonte)
-    "AND": TokenType.AND,
-    "OR": TokenType.OR,
-    "XOR": TokenType.XOR,
-    "XNOR": TokenType.XNOR,
+    "AND": TokenType.OP_AND,
+    "OR": TokenType.OP_OR,
+    "XOR": TokenType.OP_XOR,
+    "XNOR": TokenType.OP_XOR,
 }
 
 
@@ -161,45 +159,3 @@ def lookup_keyword(lexema: str) -> TokenType:
     # Consulta se lexema é reservado ou identificador
 
     return KEYWORDS.get(lexema, TokenType.IDENTIFICADOR)
-
-
-if __name__ == "__main__":
-    # Demonstração: cria alguns tokens e imprime
-    tokens_exemplo = [
-        Token(TokenType.FUNC, "func", 1, 1),
-        Token(TokenType.IDENTIFICADOR, "calcula_media", 1, 6),
-        Token(TokenType.PAREN_ESQ, "(", 1, 20),
-        Token(TokenType.IDENTIFICADOR, "num1", 1, 21),
-        Token(TokenType.VIRGULA, ",", 1, 25),
-        Token(TokenType.IDENTIFICADOR, "num2", 1, 27),
-        Token(TokenType.PAREN_DIR, ")", 1, 31),
-        Token(TokenType.CHAVE_ESQ, "{", 1, 33),
-        Token(TokenType.FLOAT, "float", 2, 5),
-        Token(TokenType.IDENTIFICADOR, "media", 2, 11),
-        Token(TokenType.ATRIBUICAO, "=", 2, 17),
-        Token(TokenType.PAREN_ESQ, "(", 2, 19),
-        Token(TokenType.IDENTIFICADOR, "num1", 2, 20),
-        Token(TokenType.MAIS, "+", 2, 25),
-        Token(TokenType.IDENTIFICADOR, "num2", 2, 27),
-        Token(TokenType.PAREN_DIR, ")", 2, 31),
-        Token(TokenType.DIVISAO, "/", 2, 33),
-        Token(TokenType.INTEIRO, "2", 2, 35),
-        Token(TokenType.PONTO_VIRGULA, ";", 2, 36),
-        Token(TokenType.RETURN, "return", 3, 5),
-        Token(TokenType.IDENTIFICADOR, "media", 3, 12),
-        Token(TokenType.PONTO_VIRGULA, ";", 3, 17),
-        Token(TokenType.CHAVE_DIR, "}", 4, 1),
-        Token(TokenType.EOF, "", 4, 2),
-    ]
-
-    print("=" * 60)
-    print("Tokens do trecho: func calcula_media(num1, num2) { ... }")
-    print("=" * 60)
-    for tok in tokens_exemplo:
-        print(f"  {tok}")
-
-    print()
-    print("Teste lookup_keyword:")
-    for palavra in ["if", "while", "AND", "contador", "func", "true", "XNOR"]:
-        resultado = lookup_keyword(palavra)
-        print(f"  lookup_keyword('{palavra}') → {resultado.name}")
