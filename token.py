@@ -150,7 +150,7 @@ class Token:
 
     def __eq__(self, other) -> bool:
         # Compara dois tokens por tipo e lexema (para testes)
-        if not is_instance(other, Token):
+        if not isinstance(other, Token):
             return False
         return self.tipo == other.tipo and self.lexema == other.lexema
 
