@@ -1,0 +1,83 @@
+func calcula_media(num1, num2) {
+    float media = (num1 + num2) / 2;
+    return media;
+}
+
+func verifica_numero(n) {
+    if (n > 0) {
+        puts('Positivo');
+    } else {
+        if (n == 0) {
+            puts('Zero');
+        } else {
+            puts('Negativo');
+        }
+    }
+    return n;
+}
+
+func main() {
+    int contador = 0;
+    float media = 0;
+    str nome = 'Arthur';
+    bool ativo = true;
+
+    puts('Digite um numero: ');
+    input(contador);
+
+    puts('Digite um decimal: ');
+    input(media);
+
+    if (ativo == true AND contador > 0) {
+        puts('Sistema ativo.');
+    } else {
+        puts('Sistema inativo.');
+    }
+
+    bool a = true;
+    bool b = false;
+    bool res_and = a AND b;
+    bool res_or = a OR b;
+    bool res_xor = a XOR b;
+    bool res_xnor = a XNOR b;
+
+    int soma = 0;
+    for (int i = 0; i < contador; i = i + 1) {
+        soma = soma + i;
+    }
+    puts(soma);
+
+    int cont = 0;
+    while (cont < 10) {
+        cont = cont + 1;
+    }
+    puts(cont);
+
+    float resultado = calcula_media(contador, 80);
+    float potencia = contador ^ 2;
+    int resto = contador % 3;
+    float subtracao = media - contador;
+    float produto = media * 2;
+
+    puts(resultado);
+    puts(potencia);
+    puts(resto);
+
+    if (contador != 0 AND media >= 5) {
+        str mensagem = 'Media valida';
+        puts(mensagem);
+    }
+
+    verifica_numero(contador);
+
+    switch (resto) {
+        case 0:
+            puts('Multiplo de 3');
+        case 1:
+            puts('Resto 1');
+        case 2:
+            puts('Resto 2');
+    }
+
+    return 0;
+}
