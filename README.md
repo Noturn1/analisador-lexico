@@ -12,7 +12,7 @@ analisador-lexico/
 ├── lexer.py                              # Lógica principal de tokenização
 ├── main.py                               # Ponto de entrada — lê o arquivo e exibe os tokens
 ├── AutomatoArjanov.jpeg                  # Diagrama do autômato finito da linguagem
-└── Especificação Analisador Léxico.docx  # Documentação formal da especificação
+└── Especificação Analisador Léxico.pdf  # Documentação formal da especificação
 ```
 
 ---
